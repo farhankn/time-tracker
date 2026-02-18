@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Office Time Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Office Time Tracker</h1>
+      <p class="subtitle">Press start when you enter office and stop when you leave.</p>
+
+      <section class="card controls">
+        <div class="status-row">
+          <span>Status:</span>
+          <strong id="status">Not in office</strong>
+        </div>
+        <div class="timer" id="liveTimer">00:00:00</div>
+        <div class="buttons">
+          <button id="startBtn" type="button">Start</button>
+          <button id="stopBtn" type="button" disabled>Stop</button>
+        </div>
+        <p id="message" class="message"></p>
+      </section>
+
+      <section class="card summary">
+        <h2>This Week</h2>
+        <div class="stats">
+          <div>
+            <span>Total time</span>
+            <strong id="weekTotal">0h 0m</strong>
+          </div>
+          <div>
+            <span>Average per day (days worked)</span>
+            <strong id="avgDayWorked">0h 0m</strong>
+          </div>
+          <div>
+            <span>Average per day (7-day week)</span>
+            <strong id="avgDayWeek">0h 0m</strong>
+          </div>
+          <div>
+            <span>Average session length</span>
+            <strong id="avgSession">0h 0m</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="card logs">
+        <h2>Recent Sessions</h2>
+        <ul id="sessionList"></ul>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
