@@ -20,44 +20,172 @@
         <p class="subtitle">Press Start when you enter office and Stop when you leave.</p>
       </section>
 
-      <section class="card controls">
-        <div class="status-row">
-          <span>Status:</span>
-          <strong id="status" class="status-pill">Not in office</strong>
-        </div>
-        <div class="timer" id="liveTimer">00:00:00</div>
-        <div class="buttons">
-          <button id="startBtn" type="button">Start</button>
-          <button id="stopBtn" type="button" disabled>Stop</button>
-        </div>
-        <p id="message" class="message"></p>
+      <nav class="tabs" aria-label="Tracker sections">
+        <button id="officeTabBtn" class="tab-btn active" type="button">Office Tracker</button>
+        <button id="pomodoroTabBtn" class="tab-btn" type="button">Pomodoro</button>
+        <button id="weatherTabBtn" class="tab-btn" type="button">Weather</button>
+        <button id="trafficTabBtn" class="tab-btn" type="button">Traffic</button>
+      </nav>
+
+      <section id="officeTabPanel" class="tab-panel">
+        <section class="card controls">
+          <div class="status-row">
+            <span>Status:</span>
+            <strong id="status" class="status-pill">Not in office</strong>
+          </div>
+          <div class="timer" id="liveTimer">00:00:00</div>
+          <div class="buttons">
+            <button id="startBtn" type="button">Start</button>
+            <button id="stopBtn" type="button" disabled>Stop</button>
+          </div>
+          <p id="message" class="message"></p>
+        </section>
+
+        <section class="card summary">
+          <h2>This Week</h2>
+          <div class="stats">
+            <div class="stat-item">
+              <span>Total time</span>
+              <strong id="weekTotal">0h 0m</strong>
+            </div>
+            <div class="stat-item">
+              <span>Average per day (days worked)</span>
+              <strong id="avgDayWorked">0h 0m</strong>
+            </div>
+            <div class="stat-item">
+              <span>Average per day (7-day week)</span>
+              <strong id="avgDayWeek">0h 0m</strong>
+            </div>
+            <div class="stat-item">
+              <span>Average session length</span>
+              <strong id="avgSession">0h 0m</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="card logs">
+          <h2>Recent Sessions</h2>
+          <ul id="sessionList"></ul>
+        </section>
       </section>
 
-      <section class="card summary">
-        <h2>This Week</h2>
-        <div class="stats">
-          <div class="stat-item">
-            <span>Total time</span>
-            <strong id="weekTotal">0h 0m</strong>
+      <section id="pomodoroTabPanel" class="tab-panel hidden">
+        <section class="card pomodoro">
+          <h2>Pomodoro Timer</h2>
+          <div class="status-row">
+            <span>Mode:</span>
+            <strong id="pomodoroMode" class="status-pill out-office">Focus</strong>
           </div>
-          <div class="stat-item">
-            <span>Average per day (days worked)</span>
-            <strong id="avgDayWorked">0h 0m</strong>
+          <div class="timer" id="pomodoroTimer">25:00</div>
+          <div class="pomodoro-settings">
+            <label>
+              Focus (min)
+              <input id="focusMinutesInput" type="number" min="1" max="120" value="25" />
+            </label>
+            <label>
+              Break (min)
+              <input id="breakMinutesInput" type="number" min="1" max="60" value="5" />
+            </label>
           </div>
-          <div class="stat-item">
-            <span>Average per day (7-day week)</span>
-            <strong id="avgDayWeek">0h 0m</strong>
+          <div class="buttons">
+            <button id="pomodoroStartBtn" type="button">Start Focus</button>
+            <button id="pomodoroPauseBtn" type="button" disabled>Pause</button>
+            <button id="pomodoroResetBtn" type="button">Reset</button>
           </div>
-          <div class="stat-item">
-            <span>Average session length</span>
-            <strong id="avgSession">0h 0m</strong>
-          </div>
-        </div>
+          <p class="message">Completed focus sessions: <strong id="pomodoroCompleted">0</strong></p>
+        </section>
       </section>
 
-      <section class="card logs">
-        <h2>Recent Sessions</h2>
-        <ul id="sessionList"></ul>
+      <section id="weatherTabPanel" class="tab-panel hidden">
+        <section class="card">
+          <div class="status-row">
+            <h2>Weather</h2>
+            <button id="refreshWeatherBtn" type="button">Refresh</button>
+          </div>
+          <p id="weatherUpdated" class="message"></p>
+          <div class="weather-grid">
+            <article class="stat-item">
+              <h3>Dublin 4</h3>
+              <p class="weather-line"><span>Temp</span><strong id="dublinTemp">--</strong></p>
+              <p class="weather-line"><span>Wind</span><strong id="dublinWind">--</strong></p>
+              <p class="weather-line"><span>Condition</span><strong id="dublinCode">--</strong></p>
+              <h4>Hourly (next 24h)</h4>
+              <div id="dublinHourly" class="forecast-hourly"></div>
+              <h4>Next 2 days</h4>
+              <div id="dublinDaily" class="forecast-daily"></div>
+            </article>
+            <article class="stat-item">
+              <h3>Dunshaughlin</h3>
+              <p class="weather-line"><span>Temp</span><strong id="dunTemp">--</strong></p>
+              <p class="weather-line"><span>Wind</span><strong id="dunWind">--</strong></p>
+              <p class="weather-line"><span>Condition</span><strong id="dunCode">--</strong></p>
+              <h4>Hourly (next 24h)</h4>
+              <div id="dunHourly" class="forecast-hourly"></div>
+              <h4>Next 2 days</h4>
+              <div id="dunDaily" class="forecast-daily"></div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section id="trafficTabPanel" class="tab-panel hidden">
+        <section class="card">
+          <h2>Traffic Routes</h2>
+          <p class="message">Open each route in Google Maps to view full live traffic and alternative paths.</p>
+          <div class="traffic-grid">
+            <article class="route-card">
+              <h3>D04RH96 to Giraffe Blanchardstown</h3>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&origin=D04RH96&destination=Giraffe+Childcare+Blanchardstown"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open in Google Maps</a
+              >
+              <div class="traffic-frame-wrap">
+                <iframe
+                  title="D04RH96 to Giraffe Blanchardstown"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=D04RH96%20to%20Giraffe%20Childcare%20Blanchardstown&output=embed"
+                ></iframe>
+              </div>
+            </article>
+            <article class="route-card">
+              <h3>Giraffe Blanchardstown to The Willows Dunshaughlin</h3>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&origin=Giraffe+Childcare+Blanchardstown&destination=The+Willows+Dunshaughlin"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open in Google Maps</a
+              >
+              <div class="traffic-frame-wrap">
+                <iframe
+                  title="Giraffe Blanchardstown to The Willows Dunshaughlin"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Giraffe%20Childcare%20Blanchardstown%20to%20The%20Willows%20Dunshaughlin&output=embed"
+                ></iframe>
+              </div>
+            </article>
+            <article class="route-card">
+              <h3>D04RH96 to The Willows Dunshaughlin</h3>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&origin=D04RH96&destination=The+Willows+Dunshaughlin"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Open in Google Maps</a
+              >
+              <div class="traffic-frame-wrap">
+                <iframe
+                  title="D04RH96 to The Willows Dunshaughlin"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=D04RH96%20to%20The%20Willows%20Dunshaughlin&output=embed"
+                ></iframe>
+              </div>
+            </article>
+          </div>
+        </section>
       </section>
     </main>
 
