@@ -136,6 +136,7 @@ function render() {
   const inOffice = Boolean(state.activeStart);
 
   statusEl.textContent = inOffice ? "In office" : "Not in office";
+  statusEl.className = inOffice ? "status-pill in-office" : "status-pill out-office";
   startBtn.disabled = inOffice;
   stopBtn.disabled = !inOffice;
 
